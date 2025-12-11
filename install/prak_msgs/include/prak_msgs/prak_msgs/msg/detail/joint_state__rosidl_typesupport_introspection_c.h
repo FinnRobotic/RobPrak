@@ -1,0 +1,1 @@
+/home/robprakt2/beer_ws/build/prak_msgs/rosidl_typesupport_introspection_c/prak_msgs/msg/detail/joint_state__rosidl_typesupport_introspection_c.h

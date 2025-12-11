@@ -1,0 +1,1 @@
+ament_cmake_symlink_install_files("/home/robprakt2/beer_ws/src/driver_cpp" FILES "/home/robprakt2/beer_ws/build/driver_cpp/ament_cmake_index/share/ament_index/resource_index/packages/driver_cpp" "DESTINATION" "share/ament_index/resource_index/packages")

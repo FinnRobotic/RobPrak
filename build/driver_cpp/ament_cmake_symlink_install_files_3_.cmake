@@ -1,0 +1,1 @@
+ament_cmake_symlink_install_files("/home/robprakt2/beer_ws/src/driver_cpp" FILES "/home/robprakt2/beer_ws/build/driver_cpp/ament_cmake_environment_hooks/ament_prefix_path.dsv" "DESTINATION" "share/driver_cpp/environment")

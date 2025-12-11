@@ -1,0 +1,1 @@
+/home/robprakt2/beer_ws/build/prak_msgs/rosidl_generator_cpp/prak_msgs/msg/detail/robot_state__struct.hpp

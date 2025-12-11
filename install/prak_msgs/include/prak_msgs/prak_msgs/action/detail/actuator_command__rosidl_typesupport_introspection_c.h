@@ -1,0 +1,1 @@
+/home/robprakt2/beer_ws/build/prak_msgs/rosidl_typesupport_introspection_c/prak_msgs/action/detail/actuator_command__rosidl_typesupport_introspection_c.h

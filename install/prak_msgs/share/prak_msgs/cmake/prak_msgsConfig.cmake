@@ -1,0 +1,1 @@
+/home/robprakt2/beer_ws/build/prak_msgs/ament_cmake_core/prak_msgsConfig.cmake

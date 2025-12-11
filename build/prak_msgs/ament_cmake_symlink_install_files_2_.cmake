@@ -1,0 +1,1 @@
+ament_cmake_symlink_install_files("/home/robprakt2/beer_ws/src/prak_msgs" FILES "/home/robprakt2/beer_ws/build/prak_msgs/rosidl_generator_type_description/prak_msgs/msg/JointStateStamped.json" "DESTINATION" "share/prak_msgs/msg")

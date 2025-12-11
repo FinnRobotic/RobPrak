@@ -1,0 +1,11 @@
+package.xml
+setup.cfg
+setup.py
+master_py/__init__.py
+master_py.egg-info/PKG-INFO
+master_py.egg-info/SOURCES.txt
+master_py.egg-info/dependency_links.txt
+master_py.egg-info/requires.txt
+master_py.egg-info/top_level.txt
+master_py.egg-info/zip-safe
+resource/master_py

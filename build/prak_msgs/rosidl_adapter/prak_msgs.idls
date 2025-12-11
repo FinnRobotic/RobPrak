@@ -1,0 +1,5 @@
+/home/robprakt2/beer_ws/build/prak_msgs/rosidl_adapter/prak_msgs:msg/JointState.idl
+/home/robprakt2/beer_ws/build/prak_msgs/rosidl_adapter/prak_msgs:msg/JointStateStamped.idl
+/home/robprakt2/beer_ws/build/prak_msgs/rosidl_adapter/prak_msgs:msg/RobotState.idl
+/home/robprakt2/beer_ws/build/prak_msgs/rosidl_adapter/prak_msgs:msg/ActuatorRequest.idl
+/home/robprakt2/beer_ws/build/prak_msgs/rosidl_adapter/prak_msgs:action/ActuatorCommand.idl

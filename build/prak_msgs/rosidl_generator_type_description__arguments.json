@@ -1,0 +1,19 @@
+{
+  "package_name": "prak_msgs",
+  "output_dir": "/home/robprakt2/beer_ws/build/prak_msgs/rosidl_generator_type_description/prak_msgs",
+  "idl_tuples": [
+    "/home/robprakt2/beer_ws/build/prak_msgs/rosidl_adapter/prak_msgs:msg/JointState.idl",
+    "/home/robprakt2/beer_ws/build/prak_msgs/rosidl_adapter/prak_msgs:msg/JointStateStamped.idl",
+    "/home/robprakt2/beer_ws/build/prak_msgs/rosidl_adapter/prak_msgs:msg/RobotState.idl",
+    "/home/robprakt2/beer_ws/build/prak_msgs/rosidl_adapter/prak_msgs:msg/ActuatorRequest.idl",
+    "/home/robprakt2/beer_ws/build/prak_msgs/rosidl_adapter/prak_msgs:action/ActuatorCommand.idl"
+  ],
+  "include_paths": [
+    "geometry_msgs:/opt/ros/kilted/share/geometry_msgs",
+    "std_msgs:/opt/ros/kilted/share/std_msgs",
+    "builtin_interfaces:/opt/ros/kilted/share/builtin_interfaces",
+    "service_msgs:/opt/ros/kilted/share/service_msgs",
+    "action_msgs:/opt/ros/kilted/share/action_msgs",
+    "unique_identifier_msgs:/opt/ros/kilted/share/unique_identifier_msgs"
+  ]
+}

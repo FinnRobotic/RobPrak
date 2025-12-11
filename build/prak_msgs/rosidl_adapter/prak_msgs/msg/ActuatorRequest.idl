@@ -1,0 +1,23 @@
+// generated from rosidl_adapter/resource/msg.idl.em
+// with input from prak_msgs/msg/ActuatorRequest.msg
+// generated code does not contain a copyright notice
+
+#include "geometry_msgs/msg/Pose.idl"
+#include "prak_msgs/msg/JointState.idl"
+#include "std_msgs/msg/Header.idl"
+
+module prak_msgs {
+  module msg {
+    struct ActuatorRequest {
+      @verbatim (language="comment", text=
+        "Timestamp of message and frame of message")
+      std_msgs::msg::Header header;
+
+      boolean use_angles;
+
+      prak_msgs::msg::JointState joint_state;
+
+      geometry_msgs::msg::Pose pose;
+    };
+  };
+};

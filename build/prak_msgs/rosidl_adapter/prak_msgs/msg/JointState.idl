@@ -1,0 +1,22 @@
+// generated from rosidl_adapter/resource/msg.idl.em
+// with input from prak_msgs/msg/JointState.msg
+// generated code does not contain a copyright notice
+
+
+module prak_msgs {
+  module msg {
+    struct JointState {
+      double shoulder_pan_joint;
+
+      double shoulder_lift_joint;
+
+      double elbow_joint;
+
+      double wrist_1_joint;
+
+      double wrist_2_joint;
+
+      double wrist_3_joint;
+    };
+  };
+};

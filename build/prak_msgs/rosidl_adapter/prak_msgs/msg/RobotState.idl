@@ -1,0 +1,19 @@
+// generated from rosidl_adapter/resource/msg.idl.em
+// with input from prak_msgs/msg/RobotState.msg
+// generated code does not contain a copyright notice
+
+#include "geometry_msgs/msg/PoseStamped.idl"
+#include "prak_msgs/msg/JointStateStamped.idl"
+#include "std_msgs/msg/Header.idl"
+
+module prak_msgs {
+  module msg {
+    struct RobotState {
+      std_msgs::msg::Header header;
+
+      prak_msgs::msg::JointStateStamped joint_state;
+
+      geometry_msgs::msg::PoseStamped tcp_pose;
+    };
+  };
+};
