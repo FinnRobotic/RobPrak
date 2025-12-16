@@ -157,7 +157,6 @@ class HandEyeCalibrationNode(Node):
         if current_count >= REQUIRED_POSES:
             self.is_collecting = False
             self.get_logger().warn("Genug Messungen gesammelt. Starte Kalibrierung...")
-            self.timer.cancel()
             
             self.perform_calibration() 
             
@@ -262,19 +261,19 @@ class HandEyeCalibrationNode(Node):
         
         # x_sol ist der Lösungsvektor mit 24 Elementen
         # residuals gibt an, wie gut die Lösung passt (Fehlerquadratsumme)
-        x_sol, residuals, rank, s = np.linalg.lstsq(A_total, b_total, rcond=None)
+        sol, residuals, rank, s = np.linalg.lstsq(A_total, b_total, rcond=None)
         
         self.get_logger().info('Lösung gefunden!')
-        self.get_logger().info(f'Lösungsvektor x (die ersten 5 Werte): {x_sol[:5]}...')
+        self.get_logger().info(f'Lösungsvektor x (die ersten 5 Werte): {sol[:5]}...')
         
         # HIER: Interpretation deiner Lösung
         # Da du eine eigene Methode hast, musst du diesen 24-elementigen Vektor 
         # nun wieder in deine gesuchte Transformationsmatrix (oder Parameter) umwandeln.
         # Zum Beispiel:
-        # x_part1 = x_sol[0:12]
-        # x_part2 = x_sol[12:24]
+        x_sol = sol[0:12]
+        y_sol = sol[12:24]
         
-        return x_sol
+        return x_sol, y_sol
     
 # -------------------------------------------------------------
 # 8. Standard ROS 2 Main-Funktion
