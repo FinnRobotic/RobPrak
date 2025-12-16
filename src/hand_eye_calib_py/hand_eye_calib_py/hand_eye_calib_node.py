@@ -9,6 +9,9 @@ from tf_transformations import quaternion_matrix
 # Für die eigentliche Kalibrierungslogik (NumPy-Funktionen, scipy)
 from scipy.spatial.transform import Rotation as R
 
+from std_msgs.msg import Bool
+from prak_msgs.msg import ActuatorRequest
+
 # -------------------------------------------------------------
 # Konstanten
 # -------------------------------------------------------------
@@ -36,6 +39,7 @@ class HandEyeCalibrationNode(Node):
         self.last_tracking_pose = None    # Speichert die letzte PoseStamped Nachricht
 
         self.is_collecting = True
+        last_pose_reached_bool = False
         
         # -------------------------------------------------------------
         # 2. ROS-Abonnements (Zugriff auf Topics)
@@ -60,11 +64,21 @@ class HandEyeCalibrationNode(Node):
         )
         self.get_logger().info('Abonniert Topic für Tracking-Pose: /vrpn_mocap/NAME/pose')
         
-        # -------------------------------------------------------------
-        # 3. Timer für die Steuerung der Datensammlung
-        # -------------------------------------------------------------
-        # Ein Trigger, der die Datensammlung alle 5 Sekunden versucht
-        self.timer = self.create_timer(5.0, self.check_and_collect_data)
+        # Abonnement für Pose Reached
+        self.pose_reached_sub = self.create_subscription(
+            Bool,
+            '/driver/pose_reached', 
+            self.pose_reached_callback,
+            10
+        )
+        self.get_logger().info('Abonniert Topic für Pose Reached :/driver/pose_reached ')
+        
+        self.actuator_req_pub = self.create_publisher(
+            ActuatorRequest,
+            '/driver/actuator_request',
+            10
+        )
+    
     
     # -------------------------------------------------------------
     # 4. Callback-Funktionen (Empfangen der Daten)
@@ -77,6 +91,11 @@ class HandEyeCalibrationNode(Node):
     def tracking_pose_callback(self, msg: PoseStamped):
         """Wird aufgerufen, wenn eine neue Tracking-Pose empfangen wird."""
         self.last_tracking_pose = msg
+    
+    def pose_reached_callback(self, msg: Bool):
+        """Wird aufgerufen, wenn der Roboter seine position erreicht hat"""
+        self.last_pose_reached_bool = msg
+        
 
         
     # -------------------------------------------------------------
