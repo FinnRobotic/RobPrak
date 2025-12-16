@@ -20,7 +20,7 @@ class TestPlannerNode(Node):
         # Publish actuator requests for the driver
         self.pub_actuator = self.create_publisher(
             ActuatorRequest,
-            '/actuator_request',
+            '/driver/actuator_request',
             10
         )
 

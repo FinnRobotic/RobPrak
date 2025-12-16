@@ -27,10 +27,10 @@ public:
 
     // Subscription
     request_sub_ = this->create_subscription<ActuatorRequest>(
-        "/actuator_request", 10,
+        "/driver/actuator_request", 10,
         std::bind(&ActuatorDriverNode::requestCallback, this, std::placeholders::_1));
 
-    pose_reached_pub_ = this->create_publisher<Bool>("/driver/pose_reached", 10);
+    pose_reached_pub_ = this->create_publisher<std_msgs::msg::Bool>("/driver/pose_reached", 10);
         
   }
 
@@ -186,6 +186,7 @@ private:
 
     return true;
   }
+
   // Members
   std::string planning_group_;
 
@@ -195,7 +196,7 @@ private:
 
   rclcpp::Subscription<ActuatorRequest>::SharedPtr request_sub_;
 
-  rclcpp::Publisher<Bool>::SharedPtr pose_reached_pub_;
+  rclcpp::Publisher<std_msgs::msg::Bool>::SharedPtr pose_reached_pub_;
 };
 
 int main(int argc, char **argv)

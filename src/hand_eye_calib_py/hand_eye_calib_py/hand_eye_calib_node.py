@@ -39,7 +39,8 @@ class HandEyeCalibrationNode(Node):
         self.last_tracking_pose = None    # Speichert die letzte PoseStamped Nachricht
 
         self.is_collecting = True
-        last_pose_reached_bool = False
+        self.reached = False
+    
         
         # -------------------------------------------------------------
         # 2. ROS-Abonnements (Zugriff auf Topics)
@@ -79,24 +80,83 @@ class HandEyeCalibrationNode(Node):
             10
         )
     
-    
+        self.collect_timer = self.create_timer(0.250, self.check_and_collect_data)
     # -------------------------------------------------------------
     # 4. Callback-Funktionen (Empfangen der Daten)
     # -------------------------------------------------------------
     
     def robot_pose_callback(self, msg: PoseStamped):
         """Wird aufgerufen, wenn eine neue Roboter-Pose empfangen wird."""
-        self.last_robot_pose = msg
+        if self.reached:
+            self.last_robot_pose = msg
+        else:
+            self.last_robot_pose = None
+
         
     def tracking_pose_callback(self, msg: PoseStamped):
         """Wird aufgerufen, wenn eine neue Tracking-Pose empfangen wird."""
-        self.last_tracking_pose = msg
+        if self.reached:
+            self.last_tracking_pose = msg
+        else:
+            self.last_tracking_pose = None
     
     def pose_reached_callback(self, msg: Bool):
         """Wird aufgerufen, wenn der Roboter seine position erreicht hat"""
-        self.last_pose_reached_bool = msg
-        
 
+        self.reached = msg.data
+
+        if not msg.data:
+            self.request_new_pose()
+        
+    def request_new_pose(self):
+        """
+        Sendet eine neue zufällige Ziel-Pose im Base-Frame an den ActuatorDriver.
+        """
+
+        req = ActuatorRequest()
+
+        # -----------------------------
+        # Header
+        # -----------------------------
+        req.header.stamp = self.get_clock().now().to_msg()
+        req.header.frame_id = "base"   # 🔑 WICHTIG
+
+        req.use_angles = False
+
+        # -----------------------------
+        # Zufällige Position (m)
+        # -----------------------------
+        # Konservativer Arbeitsraum vor dem Roboter
+        req.pose.position.x = np.random.uniform(0.35, 0.70)
+        req.pose.position.y = np.random.uniform(-0.30, 0.30)
+        req.pose.position.z = np.random.uniform(0.20, 0.60)
+
+        # -----------------------------
+        # Zufällige Orientierung
+        # -----------------------------
+        # Zufällige Roll/Pitch/Yaw
+        roll  = np.random.uniform(-np.pi, np.pi)
+        pitch = np.random.uniform(-np.pi / 2.0, np.pi / 2.0)
+        yaw   = np.random.uniform(-np.pi, np.pi)
+
+        quat = R.from_euler('xyz', [roll, pitch, yaw]).as_quat()
+
+        req.pose.orientation.x = quat[0]
+        req.pose.orientation.y = quat[1]
+        req.pose.orientation.z = quat[2]
+        req.pose.orientation.w = quat[3]
+
+        self.reached = False
+
+        self.actuator_req_pub.publish(req)
+
+        self.get_logger().info(
+            "Neue zufällige Pose im Base-Frame angefordert "
+            f"(x={req.pose.position.x:.2f}, "
+            f"y={req.pose.position.y:.2f}, "
+            f"z={req.pose.position.z:.2f})"
+        )
+        
         
     # -------------------------------------------------------------
     # 5. Konvertierung von PoseStamped zu NumPy 4x4 Matrix (Ihre Funktion)
@@ -128,15 +188,15 @@ class HandEyeCalibrationNode(Node):
     # -------------------------------------------------------------
     
     def check_and_collect_data(self):
-        """
-        Wird periodisch vom Timer aufgerufen. Speichert die aktuellen Posen.
-        """
-        if not self.is_collecting:
+
+        if not self.is_collecting or not self.reached:
             return
 
         if self.last_robot_pose is None or self.last_tracking_pose is None:
             self.get_logger().info("Warte auf synchronisierte Daten...")
             return
+        
+        self.reached = False
 
         # 1. Konvertiere beide Posen mit der posestamped_to_matrix Funktion
         T_robot_4x4 = self.posestamped_to_matrix(self.last_robot_pose)
@@ -163,6 +223,8 @@ class HandEyeCalibrationNode(Node):
             
             self.get_logger().info('Kalibrierung abgeschlossen. Node wird beendet.')
             rclpy.shutdown()
+        else:
+            self.request_new_pose()
             
     # -------------------------------------------------------------
     # 7. Kalibrierungs-Hauptfunktion (Wird als nächstes gefüllt)
@@ -210,7 +272,9 @@ class HandEyeCalibrationNode(Node):
         # -T[Ai]
         neg_translation = -1 * tTracking
         
-        # Zusammenfügen zu einem Vektor der Länge 12
+        # Zusammenfügen zu einem Vekto
+        if not self.is_collecting:
+           r der Länge 12
         vector_b = np.hstack([zeros_9, neg_translation])
         
         return matrix_A,vector_b
