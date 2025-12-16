@@ -3,6 +3,7 @@
 #include <geometry_msgs/msg/pose_stamped.hpp>
 #include <prak_msgs/msg/actuator_request.hpp>
 #include <prak_msgs/msg/joint_state.hpp>
+#include <std_msgs/msg/bool.hpp>
 
 #include <moveit/move_group_interface/move_group_interface.hpp>
 
@@ -28,7 +29,12 @@ public:
     request_sub_ = this->create_subscription<ActuatorRequest>(
         "/actuator_request", 10,
         std::bind(&ActuatorDriverNode::requestCallback, this, std::placeholders::_1));
+
+    pose_reached_pub_ = this->create_publisher<Bool>("/driver/pose_reached", 10);
+        
   }
+
+
 
   void init_move_group()
   {
@@ -45,6 +51,14 @@ public:
   }
 
 private:
+
+  void publishPoseReached(bool reached)
+  {
+    std_msgs::msg::Bool msg;
+    msg.data = reached;
+    pose_reached_pub_->publish(msg);
+  }
+
   void requestCallback(const ActuatorRequest::SharedPtr msg)
   {
     if (!move_group_)
@@ -76,10 +90,12 @@ private:
     if (!ok)
     {
       RCLCPP_ERROR(this->get_logger(), "Execution of ActuatorRequest failed.");
+      publishPoseReached(false);
     }
     else
     {
       RCLCPP_INFO(this->get_logger(), "ActuatorRequest executed successfully.");
+      publishPoseReached(true);
     }
   }
 
@@ -170,7 +186,6 @@ private:
 
     return true;
   }
-
   // Members
   std::string planning_group_;
 
@@ -179,6 +194,8 @@ private:
   std::shared_ptr<tf2_ros::TransformListener> tf_listener_;
 
   rclcpp::Subscription<ActuatorRequest>::SharedPtr request_sub_;
+
+  rclcpp::Publisher<Bool>::SharedPtr pose_reached_pub_;
 };
 
 int main(int argc, char **argv)

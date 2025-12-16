@@ -1,0 +1,2 @@
+[console_scripts]
+hand_eye_calib_node = hand_eye_calib_py.hand_eye_calib_node:main

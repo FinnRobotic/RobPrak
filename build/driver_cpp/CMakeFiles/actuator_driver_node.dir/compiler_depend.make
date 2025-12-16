@@ -707,7 +707,12 @@ CMakeFiles/actuator_driver_node.dir/src/actuator_driver_node.cpp.o: /home/robpra
   /opt/ros/kilted/include/statistics_msgs/statistics_msgs/msg/detail/statistic_data_point__traits.hpp \
   /opt/ros/kilted/include/statistics_msgs/statistics_msgs/msg/metrics_message.hpp \
   /opt/ros/kilted/include/statistics_msgs/statistics_msgs/msg/rosidl_generator_cpp__visibility_control.hpp \
+  /opt/ros/kilted/include/std_msgs/std_msgs/msg/bool.hpp \
   /opt/ros/kilted/include/std_msgs/std_msgs/msg/color_rgba.hpp \
+  /opt/ros/kilted/include/std_msgs/std_msgs/msg/detail/bool__builder.hpp \
+  /opt/ros/kilted/include/std_msgs/std_msgs/msg/detail/bool__struct.hpp \
+  /opt/ros/kilted/include/std_msgs/std_msgs/msg/detail/bool__traits.hpp \
+  /opt/ros/kilted/include/std_msgs/std_msgs/msg/detail/bool__type_support.hpp \
   /opt/ros/kilted/include/std_msgs/std_msgs/msg/detail/color_rgba__builder.hpp \
   /opt/ros/kilted/include/std_msgs/std_msgs/msg/detail/color_rgba__struct.hpp \
   /opt/ros/kilted/include/std_msgs/std_msgs/msg/detail/color_rgba__traits.hpp \
@@ -1826,6 +1831,14 @@ CMakeFiles/actuator_driver_node.dir/src/actuator_driver_node.cpp.o: /home/robpra
 
 /usr/include/eigen3/Eigen/src/Core/ArrayWrapper.h:
 
+/usr/include/eigen3/Eigen/src/Core/Array.h:
+
+/usr/include/eigen3/Eigen/src/Core/ArithmeticSequence.h:
+
+/usr/include/eigen3/Eigen/src/Cholesky/LDLT.h:
+
+/usr/include/eigen3/Eigen/StdVector:
+
 /home/robprakt2/ws_moveit/install/moveit_msgs/include/moveit_msgs/moveit_msgs/action/detail/execute_trajectory__builder.hpp:
 
 /usr/include/alloca.h:
@@ -2358,6 +2371,10 @@ CMakeFiles/actuator_driver_node.dir/src/actuator_driver_node.cpp.o: /home/robpra
 
 /home/robprakt2/ws_moveit/install/moveit_msgs/include/moveit_msgs/moveit_msgs/msg/detail/planning_options__struct.hpp:
 
+/usr/include/eigen3/Eigen/src/Cholesky/LLT.h:
+
+/opt/ros/kilted/include/type_description_interfaces/type_description_interfaces/msg/detail/type_source__struct.h:
+
 /home/robprakt2/ws_moveit/install/moveit_core/include/moveit_core/moveit/macros/declare_ptr.hpp:
 
 /opt/ros/kilted/include/geometry_msgs/geometry_msgs/msg/detail/velocity_stamped__type_support.hpp:
@@ -2548,6 +2565,8 @@ CMakeFiles/actuator_driver_node.dir/src/actuator_driver_node.cpp.o: /home/robpra
 
 /opt/ros/kilted/include/action_msgs/action_msgs/msg/detail/goal_info__struct.h:
 
+/opt/ros/kilted/include/std_msgs/std_msgs/msg/detail/bool__builder.hpp:
+
 /home/robprakt2/beer_ws/install/prak_msgs/include/prak_msgs/prak_msgs/msg/detail/actuator_request__builder.hpp:
 
 /opt/ros/kilted/include/geometry_msgs/geometry_msgs/msg/detail/pose_stamped__type_support.hpp:
@@ -2623,8 +2642,6 @@ CMakeFiles/actuator_driver_node.dir/src/actuator_driver_node.cpp.o: /home/robpra
 /home/robprakt2/ws_moveit/install/moveit_core/include/moveit_core/moveit/robot_model/prismatic_joint_model.hpp:
 
 /opt/ros/kilted/include/geometry_msgs/geometry_msgs/msg/detail/pose_with_covariance_stamped__type_support.hpp:
-
-/home/robprakt2/beer_ws/install/prak_msgs/include/prak_msgs/prak_msgs/msg/detail/joint_state__builder.hpp:
 
 /opt/ros/kilted/include/geometry_msgs/geometry_msgs/msg/detail/point32__builder.hpp:
 
@@ -3596,8 +3613,6 @@ CMakeFiles/actuator_driver_node.dir/src/actuator_driver_node.cpp.o: /home/robpra
 
 /opt/ros/kilted/include/sensor_msgs/sensor_msgs/msg/detail/multi_dof_joint_state__struct.hpp:
 
-/usr/include/eigen3/Eigen/src/Cholesky/LDLT.h:
-
 /usr/include/boost/type_traits/remove_cv.hpp:
 
 /opt/ros/kilted/include/sensor_msgs/sensor_msgs/msg/rosidl_generator_cpp__visibility_control.hpp:
@@ -3658,6 +3673,28 @@ CMakeFiles/actuator_driver_node.dir/src/actuator_driver_node.cpp.o: /home/robpra
 
 /usr/include/boost/type_traits/is_integral.hpp:
 
+/opt/ros/kilted/include/std_msgs/std_msgs/msg/bool.hpp:
+
+/opt/ros/kilted/include/std_msgs/std_msgs/msg/detail/bool__struct.hpp:
+
+/opt/ros/kilted/include/tf2_msgs/tf2_msgs/srv/detail/frame_graph__struct.hpp:
+
+/opt/ros/kilted/include/std_msgs/std_msgs/msg/detail/bool__traits.hpp:
+
+/opt/ros/kilted/include/geometry_msgs/geometry_msgs/msg/detail/vector3__type_support.hpp:
+
+/opt/ros/kilted/include/tf2/tf2/impl/convert.hpp:
+
+/home/robprakt2/beer_ws/install/prak_msgs/include/prak_msgs/prak_msgs/msg/detail/joint_state__builder.hpp:
+
+/opt/ros/kilted/include/std_msgs/std_msgs/msg/detail/bool__type_support.hpp:
+
+/home/robprakt2/ws_moveit/install/moveit_msgs/include/moveit_msgs/moveit_msgs/msg/detail/constraints__traits.hpp:
+
+/usr/include/boost/config/detail/cxx_composite.hpp:
+
+/usr/include/c++/13/bits/istream.tcc:
+
 /opt/ros/kilted/include/rclcpp/rclcpp/message_memory_strategy.hpp:
 
 /opt/ros/kilted/include/rclcpp/rclcpp/detail/add_guard_condition_to_rcl_wait_set.hpp:
@@ -3704,10 +3741,6 @@ CMakeFiles/actuator_driver_node.dir/src/actuator_driver_node.cpp.o: /home/robpra
 
 /opt/ros/kilted/include/tf2/tf2/exceptions.hpp:
 
-/opt/ros/kilted/include/geometry_msgs/geometry_msgs/msg/detail/vector3__type_support.hpp:
-
-/opt/ros/kilted/include/tf2/tf2/impl/convert.hpp:
-
 /opt/ros/kilted/include/tf2/tf2/time.hpp:
 
 /usr/include/c++/13/list:
@@ -3731,8 +3764,6 @@ CMakeFiles/actuator_driver_node.dir/src/actuator_driver_node.cpp.o: /home/robpra
 /opt/ros/kilted/include/tf2_msgs/tf2_msgs/srv/detail/frame_graph__builder.hpp:
 
 /usr/include/c++/13/string:
-
-/opt/ros/kilted/include/tf2_msgs/tf2_msgs/srv/detail/frame_graph__struct.hpp:
 
 /opt/ros/kilted/include/tf2_msgs/tf2_msgs/srv/frame_graph.hpp:
 
@@ -3863,12 +3894,6 @@ CMakeFiles/actuator_driver_node.dir/src/actuator_driver_node.cpp.o: /home/robpra
 /usr/include/boost/config.hpp:
 
 /usr/include/boost/config/compiler/gcc.hpp:
-
-/home/robprakt2/ws_moveit/install/moveit_msgs/include/moveit_msgs/moveit_msgs/msg/detail/constraints__traits.hpp:
-
-/usr/include/boost/config/detail/cxx_composite.hpp:
-
-/usr/include/c++/13/bits/istream.tcc:
 
 /home/robprakt2/ws_moveit/install/moveit_msgs/include/moveit_msgs/moveit_msgs/msg/detail/planning_scene_world__traits.hpp:
 
@@ -4248,8 +4273,6 @@ CMakeFiles/actuator_driver_node.dir/src/actuator_driver_node.cpp.o: /home/robpra
 
 /usr/include/c++/13/future:
 
-/usr/include/eigen3/Eigen/StdVector:
-
 /usr/include/c++/13/initializer_list:
 
 /usr/include/c++/13/pstl/pstl_config.h:
@@ -4293,11 +4316,3 @@ CMakeFiles/actuator_driver_node.dir/src/actuator_driver_node.cpp.o: /home/robpra
 /usr/include/c++/13/utility:
 
 /usr/include/eigen3/Eigen/SVD:
-
-/opt/ros/kilted/include/type_description_interfaces/type_description_interfaces/msg/detail/type_source__struct.h:
-
-/usr/include/eigen3/Eigen/src/Cholesky/LLT.h:
-
-/usr/include/eigen3/Eigen/src/Core/ArithmeticSequence.h:
-
-/usr/include/eigen3/Eigen/src/Core/Array.h:

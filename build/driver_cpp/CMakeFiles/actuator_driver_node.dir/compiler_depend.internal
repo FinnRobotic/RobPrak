@@ -708,7 +708,12 @@ CMakeFiles/actuator_driver_node.dir/src/actuator_driver_node.cpp.o
  /opt/ros/kilted/include/statistics_msgs/statistics_msgs/msg/detail/statistic_data_point__traits.hpp
  /opt/ros/kilted/include/statistics_msgs/statistics_msgs/msg/metrics_message.hpp
  /opt/ros/kilted/include/statistics_msgs/statistics_msgs/msg/rosidl_generator_cpp__visibility_control.hpp
+ /opt/ros/kilted/include/std_msgs/std_msgs/msg/bool.hpp
  /opt/ros/kilted/include/std_msgs/std_msgs/msg/color_rgba.hpp
+ /opt/ros/kilted/include/std_msgs/std_msgs/msg/detail/bool__builder.hpp
+ /opt/ros/kilted/include/std_msgs/std_msgs/msg/detail/bool__struct.hpp
+ /opt/ros/kilted/include/std_msgs/std_msgs/msg/detail/bool__traits.hpp
+ /opt/ros/kilted/include/std_msgs/std_msgs/msg/detail/bool__type_support.hpp
  /opt/ros/kilted/include/std_msgs/std_msgs/msg/detail/color_rgba__builder.hpp
  /opt/ros/kilted/include/std_msgs/std_msgs/msg/detail/color_rgba__struct.hpp
  /opt/ros/kilted/include/std_msgs/std_msgs/msg/detail/color_rgba__traits.hpp

@@ -1,0 +1,8 @@
+[ 50%] Built target actuator_action_server
+[ 75%] [32mBuilding CXX object CMakeFiles/actuator_driver_node.dir/src/actuator_driver_node.cpp.o[0m
+[01m[K/home/robprakt2/beer_ws/src/driver_cpp/src/actuator_driver_node.cpp:34:3:[m[K [01;31m[Kerror: [m[K‘[01m[Kpose_reached_pub_[m[K’ does not name a type
+   34 |   [01;31m[Kpose_reached_pub_[m[K = this->create_publisher<Bool>("/driver/pose_reached", 10);
+      |   [01;31m[K^~~~~~~~~~~~~~~~~[m[K
+gmake[2]: *** [CMakeFiles/actuator_driver_node.dir/build.make:76: CMakeFiles/actuator_driver_node.dir/src/actuator_driver_node.cpp.o] Error 1
+gmake[1]: *** [CMakeFiles/Makefile2:139: CMakeFiles/actuator_driver_node.dir/all] Error 2
+gmake: *** [Makefile:146: all] Error 2

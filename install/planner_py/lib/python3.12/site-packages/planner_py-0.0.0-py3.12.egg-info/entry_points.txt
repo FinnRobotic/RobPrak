@@ -1,0 +1,3 @@
+[console_scripts]
+state_node = planner_py.state_node:main
+test_planner_node = planner_py.test_planner_node:main
