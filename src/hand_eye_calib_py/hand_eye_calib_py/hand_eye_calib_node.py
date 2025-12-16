@@ -271,9 +271,6 @@ class HandEyeCalibrationNode(Node):
         # -T[Ai]
         neg_translation = -1 * tTracking
         
-        # Zusammenfügen zu einem Vekto
-        if not self.is_collecting:
-           r der Länge 12
         vector_b = np.hstack([zeros_9, neg_translation])
         
         return matrix_A,vector_b
@@ -336,8 +333,16 @@ class HandEyeCalibrationNode(Node):
         # Zum Beispiel:
         x_sol = sol[0:12]
         y_sol = sol[12:24]
+        x_lenght = len(x_sol)
+        y_lenght = len(y_sol)
         
-        return x_sol, y_sol
+        for i in range(x_lenght):
+            print(f"x{i}: {x_sol[i]}")
+        for i in range(y_lenght):    
+            print(f"y{i}: {y_sol[i]}")
+            
+        return
+        
     
 # -------------------------------------------------------------
 # 8. Standard ROS 2 Main-Funktion
