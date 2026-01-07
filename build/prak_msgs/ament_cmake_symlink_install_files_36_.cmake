@@ -1,1 +1,0 @@
-ament_cmake_symlink_install_files("/home/robprakt2/beer_ws/src/prak_msgs" FILES "/home/robprakt2/beer_ws/build/prak_msgs/ament_cmake_export_targets/ament_cmake_export_targets-extras.cmake" "DESTINATION" "share/prak_msgs/cmake")

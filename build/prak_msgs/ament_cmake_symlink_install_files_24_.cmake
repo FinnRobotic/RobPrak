@@ -1,1 +1,0 @@
-ament_cmake_symlink_install_files("/home/robprakt2/beer_ws/src/prak_msgs" FILES "/opt/ros/kilted/share/ament_cmake_core/cmake/environment_hooks/environment/path.sh" "DESTINATION" "share/prak_msgs/environment")

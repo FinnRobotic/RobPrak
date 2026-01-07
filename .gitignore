@@ -1,0 +1,50 @@
+# === ROS 2 colcon build artefacts ===
+build/
+install/
+log/
+
+# === Python cache ===
+__pycache__/
+*.py[cod]
+
+# === CMake & Catkin artifacts ===
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+
+# === ROS messages and services (generated) ===
+*.pyc
+*.pyo
+*.so
+*.pc
+*.egg-info/
+
+# === Visual Studio Code ===
+.vscode/
+
+# === CLion / JetBrains ===
+.idea/
+
+# === Editor backups ===
+*~
+*.swp
+*.swo
+*.bak
+
+# === MacOS ===
+.DS_Store
+
+# === ROS 2 launch logs / temp ===
+*.launch.[log|py].bak
+*.log
+*.test
+
+# === Python virtual environments ===
+venv/
+.env/
+
+
+# pixi environments
+.pixi/*
+!.pixi/config.toml

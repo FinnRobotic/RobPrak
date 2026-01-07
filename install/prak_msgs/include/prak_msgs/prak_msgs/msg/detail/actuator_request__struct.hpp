@@ -1,1 +1,0 @@
-/home/robprakt2/beer_ws/build/prak_msgs/rosidl_generator_cpp/prak_msgs/msg/detail/actuator_request__struct.hpp

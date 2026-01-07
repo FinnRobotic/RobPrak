@@ -1,1 +1,0 @@
-/home/robprakt2/beer_ws/src/planner_py/launch/planner.launch.py

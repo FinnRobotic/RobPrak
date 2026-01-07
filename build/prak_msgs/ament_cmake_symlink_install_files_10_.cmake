@@ -1,1 +1,0 @@
-ament_cmake_symlink_install_files("/home/robprakt2/beer_ws/src/prak_msgs" FILES "/home/robprakt2/beer_ws/build/prak_msgs/rosidl_adapter/prak_msgs/msg/JointState.idl" "DESTINATION" "share/prak_msgs/msg")

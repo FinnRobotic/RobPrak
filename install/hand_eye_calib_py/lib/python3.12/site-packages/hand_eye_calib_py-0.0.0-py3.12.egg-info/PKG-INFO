@@ -1,9 +1,0 @@
-Metadata-Version: 2.1
-Name: hand-eye-calib-py
-Version: 0.0.0
-Summary: TODO: Package description
-Maintainer: Finn Flemming
-Maintainer-email: finnole.flemming@student.uni-luebeck.de
-License: MIT
-Provides-Extra: test
-License-File: LICENSE

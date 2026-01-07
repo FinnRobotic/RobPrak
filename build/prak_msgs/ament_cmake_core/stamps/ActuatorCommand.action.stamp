@@ -1,9 +1,0 @@
-# Goal
-prak_msgs/ActuatorRequest request
----
-# Result
-bool success
-string message
----
-# Feedback
-float32 progress

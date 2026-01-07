@@ -1,1 +1,0 @@
-ament_cmake_symlink_install_targets("TARGET_FILES" "/home/robprakt2/beer_ws/build/driver_cpp/actuator_driver_node" "/home/robprakt2/beer_ws/build/driver_cpp/actuator_action_server" "TARGETS" "actuator_driver_node" "actuator_action_server" "DESTINATION" "lib/driver_cpp")

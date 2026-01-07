@@ -1,1 +1,0 @@
-/home/robprakt2/beer_ws/src/prak_msgs/msg/ActuatorRequest.msg

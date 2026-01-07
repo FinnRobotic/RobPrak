@@ -1,1 +1,0 @@
-ament_cmake_symlink_install_targets("TARGET_FILES" "/home/robprakt2/beer_ws/build/prak_msgs/rosidl_generator_py/prak_msgs/prak_msgs_s__rosidl_typesupport_c.so" "TARGETS" "prak_msgs_s__rosidl_typesupport_c" "DESTINATION" "lib/python3.12/site-packages/prak_msgs")
