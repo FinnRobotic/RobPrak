@@ -1,0 +1,23 @@
+hand_eye_calibration_node:
+  ros__parameters:
+    required_poses: 15
+
+    topics:
+      robot_pose: "/tcp_pose_broadcaster/pose"
+      tracking_pose: "/vrpn_mocap/Table_1/pose"
+      pose_reached: "/driver/pose_reached"
+      actuator_request: "/driver/actuator_request"
+
+    workspace:
+      x_min: 0.35
+      x_max: 0.70
+      y_min: -0.30
+      y_max: 0.30
+      z_min: 0.20
+      z_max: 0.60
+
+    timers:
+      first_pose_timer_period_s: 0.5
+      first_pose_min_delay_s: 1.0
+
+    reached_stability_time_s: 0.5

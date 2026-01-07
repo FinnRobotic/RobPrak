@@ -1,0 +1,29 @@
+obstacle_publisher:
+  ros__parameters:
+    planning_group: "ur_manipulator"
+
+    # Startup behavior
+    startup_delay_ms: 800
+    apply_on_start: true
+    remove_all_on_start: true
+    remove_only_configured_ids: true
+
+    obstacles: ["central_obstacle", "table", "back_wall"]
+
+    obstacle.central_obstacle.type: "box"
+    obstacle.central_obstacle.size: [0.2, 0.2, 0.4]
+    obstacle.central_obstacle.pose.position: [0.45, 0.0, 0.2]
+    obstacle.central_obstacle.pose.orientation: [0.0, 0.0, 0.0, 1.0]
+    obstacle.central_obstacle.operation: "add"
+
+    obstacle.table.type: "box"
+    obstacle.table.size: [1.2, 0.8, 0.05]
+    obstacle.table.pose.position: [0.5, 0.0, -0.025]
+    obstacle.table.pose.orientation: [0.0, 0.0, 0.0, 1.0]
+    obstacle.table.operation: "add"
+
+    obstacle.back_wall.type: "box"
+    obstacle.back_wall.size: [0.05, 2.0, 2.0]
+    obstacle.back_wall.pose.position: [-0.2, 0.0, 1.0]
+    obstacle.back_wall.pose.orientation: [0.0, 0.0, 0.0, 1.0]
+    obstacle.back_wall.operation: "add"
