@@ -61,7 +61,7 @@ class TestPlannerNode(Node):
         req.pose = tcp_pose.pose
 
         # Move 0.10 m down in z
-        req.pose.position.z -= 0.10
+        req.pose.position.z += 0.10
 
         self.get_logger().info(
             f"Sending ActuatorRequest: move TCP down by 0.10 m in frame '{req.header.frame_id}'. "

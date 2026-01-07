@@ -9,6 +9,18 @@ from tf_transformations import quaternion_matrix
 # Für die eigentliche Kalibrierungslogik (NumPy-Funktionen, scipy)
 from scipy.spatial.transform import Rotation as R
 
+from std_msgs.msg import Bool
+from prak_msgs.msg import ActuatorRequest
+from rclpy.qos import QoSProfile, ReliabilityPolicy, HistoryPolicy
+
+import time
+
+# QoS passend zum VRPN Publisher
+qos_profile = QoSProfile(
+    reliability=ReliabilityPolicy.BEST_EFFORT,
+    history=HistoryPolicy.KEEP_LAST,
+    depth=1
+)
 # -------------------------------------------------------------
 # Konstanten
 # -------------------------------------------------------------
@@ -36,6 +48,8 @@ class HandEyeCalibrationNode(Node):
         self.last_tracking_pose = None    # Speichert die letzte PoseStamped Nachricht
 
         self.is_collecting = True
+        self.reached = False
+    
         
         # -------------------------------------------------------------
         # 2. ROS-Abonnements (Zugriff auf Topics)
@@ -44,40 +58,133 @@ class HandEyeCalibrationNode(Node):
         # Abonnement für Roboter-Endeffektor-Pose
         self.robot_sub = self.create_subscription(
             PoseStamped,
-            '/robot/end_effector_pose',
+            '/tcp_pose_broadcaster/pose',
             self.robot_pose_callback,
             10
         )
-        self.get_logger().info('Abonniert Topic für Roboter-Pose: /robot/end_effector_pose')
+        self.get_logger().info('Abonniert Topic für Roboter-Pose: /tcp_pose_broadcaster/pose')
 
 
         # Abonnement für Tracking-Muster-Pose
         self.tracking_sub = self.create_subscription(
             PoseStamped,
-            '/vrpn_mocap/NAME/pose', # <--- TRACKING TOPIC ANPASSEN
+            '/vrpn_mocap/Table_1/pose',  # korrektes Topic
             self.tracking_pose_callback,
+            qos_profile
+        )
+        self.get_logger().info('Abonniert Topic für Tracking-Pose: /vrpn_mocap/Table_1/pose')
+        
+        # Abonnement für Pose Reached
+        self.pose_reached_sub = self.create_subscription(
+            Bool,
+            '/driver/pose_reached', 
+            self.pose_reached_callback,
             10
         )
-        self.get_logger().info('Abonniert Topic für Tracking-Pose: /vrpn_mocap/NAME/pose')
+        self.get_logger().info('Abonniert Topic für Pose Reached :/driver/pose_reached ')
         
-        # -------------------------------------------------------------
-        # 3. Timer für die Steuerung der Datensammlung
-        # -------------------------------------------------------------
-        # Ein Trigger, der die Datensammlung alle 5 Sekunden versucht
-        self.timer = self.create_timer(5.0, self.check_and_collect_data)
+        self.actuator_req_pub = self.create_publisher(
+            ActuatorRequest,
+            '/driver/actuator_request',
+            10
+        )
     
+        self.collect_timer = self.create_timer(0.25, self.check_and_collect_data)
+        
+        self.first_pose_sent = False
+        self.start_time = time.time()
+
+        # Timer für erste Pose mit Delay
+        self.create_timer(0.5, self.send_first_pose)  
+
+
+    def send_first_pose(self):
+        # Warte mindestens 0.1 s, um Publisher initialisieren zu lassen
+        if self.first_pose_sent:
+            return
+        if time.time() - self.start_time < 1:  
+            return
+
+        self.get_logger().info("Sende erste Pose nach Delay...")
+        self.request_new_pose()
+        self.first_pose_sent = True
+
     # -------------------------------------------------------------
     # 4. Callback-Funktionen (Empfangen der Daten)
     # -------------------------------------------------------------
     
     def robot_pose_callback(self, msg: PoseStamped):
         """Wird aufgerufen, wenn eine neue Roboter-Pose empfangen wird."""
-        self.last_robot_pose = msg
+        if self.reached:
+            self.last_robot_pose = msg
+        else:
+            self.last_robot_pose = None
+
         
     def tracking_pose_callback(self, msg: PoseStamped):
         """Wird aufgerufen, wenn eine neue Tracking-Pose empfangen wird."""
-        self.last_tracking_pose = msg
+        if self.reached:
+            self.last_tracking_pose = msg
+        else:
+            self.last_tracking_pose = None
+    
+    def pose_reached_callback(self, msg: Bool):
+        """Wird aufgerufen, wenn der Roboter seine position erreicht hat"""
 
+        self.reached = msg.data
+
+        if not msg.data:
+            self.request_new_pose()
+        
+    def request_new_pose(self):
+        """
+        Sendet eine neue zufällige Ziel-Pose im Base-Frame an den ActuatorDriver.
+        """
+
+        req = ActuatorRequest()
+
+        # -----------------------------
+        # Header
+        # -----------------------------
+        req.header.stamp = self.get_clock().now().to_msg()
+        req.header.frame_id = "base"   # 🔑 WICHTIG
+
+        req.use_angles = False
+
+        # -----------------------------
+        # Zufällige Position (m)
+        # -----------------------------
+        # Konservativer Arbeitsraum vor dem Roboter
+        req.pose.position.x = np.random.uniform(0.35, 0.70)
+        req.pose.position.y = np.random.uniform(-0.30, 0.30)
+        req.pose.position.z = np.random.uniform(0.20, 0.60)
+
+        # -----------------------------
+        # Zufällige Orientierung
+        # -----------------------------
+        # Zufällige Roll/Pitch/Yaw
+        roll  = np.random.uniform(-np.pi, np.pi)
+        pitch = np.random.uniform(-np.pi / 2.0, np.pi / 2.0)
+        yaw   = np.random.uniform(-np.pi, np.pi)
+
+        quat = R.from_euler('xyz', [roll, pitch, yaw]).as_quat()
+
+        req.pose.orientation.x = quat[0]
+        req.pose.orientation.y = quat[1]
+        req.pose.orientation.z = quat[2]
+        req.pose.orientation.w = quat[3]
+
+        self.reached = False
+
+        self.actuator_req_pub.publish(req)
+
+        self.get_logger().info(
+            "Neue zufällige Pose im Base-Frame angefordert "
+            f"(x={req.pose.position.x:.2f}, "
+            f"y={req.pose.position.y:.2f}, "
+            f"z={req.pose.position.z:.2f})"
+        )
+        
         
     # -------------------------------------------------------------
     # 5. Konvertierung von PoseStamped zu NumPy 4x4 Matrix (Ihre Funktion)
@@ -109,15 +216,15 @@ class HandEyeCalibrationNode(Node):
     # -------------------------------------------------------------
     
     def check_and_collect_data(self):
-        """
-        Wird periodisch vom Timer aufgerufen. Speichert die aktuellen Posen.
-        """
-        if not self.is_collecting:
+
+        if not self.is_collecting or not self.reached:
             return
 
         if self.last_robot_pose is None or self.last_tracking_pose is None:
             self.get_logger().info("Warte auf synchronisierte Daten...")
             return
+        
+        self.reached = False
 
         # 1. Konvertiere beide Posen mit der posestamped_to_matrix Funktion
         T_robot_4x4 = self.posestamped_to_matrix(self.last_robot_pose)
@@ -138,12 +245,13 @@ class HandEyeCalibrationNode(Node):
         if current_count >= REQUIRED_POSES:
             self.is_collecting = False
             self.get_logger().warn("Genug Messungen gesammelt. Starte Kalibrierung...")
-            self.timer.cancel()
             
             self.perform_calibration() 
             
             self.get_logger().info('Kalibrierung abgeschlossen. Node wird beendet.')
             rclpy.shutdown()
+        else:
+            self.request_new_pose()
             
     # -------------------------------------------------------------
     # 7. Kalibrierungs-Hauptfunktion (Wird als nächstes gefüllt)
@@ -191,7 +299,6 @@ class HandEyeCalibrationNode(Node):
         # -T[Ai]
         neg_translation = -1 * tTracking
         
-        # Zusammenfügen zu einem Vektor der Länge 12
         vector_b = np.hstack([zeros_9, neg_translation])
         
         return matrix_A,vector_b
@@ -243,19 +350,27 @@ class HandEyeCalibrationNode(Node):
         
         # x_sol ist der Lösungsvektor mit 24 Elementen
         # residuals gibt an, wie gut die Lösung passt (Fehlerquadratsumme)
-        x_sol, residuals, rank, s = np.linalg.lstsq(A_total, b_total, rcond=None)
+        sol, residuals, rank, s = np.linalg.lstsq(A_total, b_total, rcond=None)
         
         self.get_logger().info('Lösung gefunden!')
-        self.get_logger().info(f'Lösungsvektor x (die ersten 5 Werte): {x_sol[:5]}...')
+        self.get_logger().info(f'Lösungsvektor x (die ersten 5 Werte): {sol[:5]}...')
         
         # HIER: Interpretation deiner Lösung
         # Da du eine eigene Methode hast, musst du diesen 24-elementigen Vektor 
         # nun wieder in deine gesuchte Transformationsmatrix (oder Parameter) umwandeln.
         # Zum Beispiel:
-        # x_part1 = x_sol[0:12]
-        # x_part2 = x_sol[12:24]
+        x_sol = sol[0:12]
+        y_sol = sol[12:24]
+        x_lenght = len(x_sol)
+        y_lenght = len(y_sol)
         
-        return x_sol
+        for i in range(x_lenght):
+            print(f"x{i}: {x_sol[i]}")
+        for i in range(y_lenght):    
+            print(f"y{i}: {y_sol[i]}")
+            
+        return
+        
     
 # -------------------------------------------------------------
 # 8. Standard ROS 2 Main-Funktion

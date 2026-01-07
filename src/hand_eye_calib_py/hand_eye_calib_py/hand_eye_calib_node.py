@@ -11,7 +11,16 @@ from scipy.spatial.transform import Rotation as R
 
 from std_msgs.msg import Bool
 from prak_msgs.msg import ActuatorRequest
+from rclpy.qos import QoSProfile, ReliabilityPolicy, HistoryPolicy
 
+import time
+
+# QoS passend zum VRPN Publisher
+qos_profile = QoSProfile(
+    reliability=ReliabilityPolicy.BEST_EFFORT,
+    history=HistoryPolicy.KEEP_LAST,
+    depth=1
+)
 # -------------------------------------------------------------
 # Konstanten
 # -------------------------------------------------------------
@@ -49,21 +58,21 @@ class HandEyeCalibrationNode(Node):
         # Abonnement für Roboter-Endeffektor-Pose
         self.robot_sub = self.create_subscription(
             PoseStamped,
-            '/robot/end_effector_pose',
+            '/tcp_pose_broadcaster/pose',
             self.robot_pose_callback,
             10
         )
-        self.get_logger().info('Abonniert Topic für Roboter-Pose: /robot/end_effector_pose')
+        self.get_logger().info('Abonniert Topic für Roboter-Pose: /tcp_pose_broadcaster/pose')
 
 
         # Abonnement für Tracking-Muster-Pose
         self.tracking_sub = self.create_subscription(
             PoseStamped,
-            '/vrpn_mocap/NAME/pose', # <--- TRACKING TOPIC ANPASSEN
+            '/vrpn_mocap/Table_1/pose',  # korrektes Topic
             self.tracking_pose_callback,
-            10
+            qos_profile
         )
-        self.get_logger().info('Abonniert Topic für Tracking-Pose: /vrpn_mocap/NAME/pose')
+        self.get_logger().info('Abonniert Topic für Tracking-Pose: /vrpn_mocap/Table_1/pose')
         
         # Abonnement für Pose Reached
         self.pose_reached_sub = self.create_subscription(
@@ -80,7 +89,26 @@ class HandEyeCalibrationNode(Node):
             10
         )
     
-        self.collect_timer = self.create_timer(0.250, self.check_and_collect_data)
+        self.collect_timer = self.create_timer(0.25, self.check_and_collect_data)
+        
+        self.first_pose_sent = False
+        self.start_time = time.time()
+
+        # Timer für erste Pose mit Delay
+        self.create_timer(0.5, self.send_first_pose)  
+
+
+    def send_first_pose(self):
+        # Warte mindestens 0.1 s, um Publisher initialisieren zu lassen
+        if self.first_pose_sent:
+            return
+        if time.time() - self.start_time < 1:  
+            return
+
+        self.get_logger().info("Sende erste Pose nach Delay...")
+        self.request_new_pose()
+        self.first_pose_sent = True
+
     # -------------------------------------------------------------
     # 4. Callback-Funktionen (Empfangen der Daten)
     # -------------------------------------------------------------

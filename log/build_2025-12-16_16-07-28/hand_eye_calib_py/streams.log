@@ -1,0 +1,25 @@
+[0.873s] Invoking command in '/home/robprakt2/beer_ws/src/hand_eye_calib_py': DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PYTHONPATH=/home/robprakt2/beer_ws/build/hand_eye_calib_py/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/robprakt2/beer_ws/install/hand_eye_calib_py/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/hand_eye_calib_py build --build-base /home/robprakt2/beer_ws/build/hand_eye_calib_py/build install --record /home/robprakt2/beer_ws/build/hand_eye_calib_py/install.log --single-version-externally-managed install_data
+[1.116s] running egg_info
+[1.135s] writing ../../build/hand_eye_calib_py/hand_eye_calib_py.egg-info/PKG-INFO
+[1.135s] writing dependency_links to ../../build/hand_eye_calib_py/hand_eye_calib_py.egg-info/dependency_links.txt
+[1.135s] writing entry points to ../../build/hand_eye_calib_py/hand_eye_calib_py.egg-info/entry_points.txt
+[1.135s] writing requirements to ../../build/hand_eye_calib_py/hand_eye_calib_py.egg-info/requires.txt
+[1.135s] writing top-level names to ../../build/hand_eye_calib_py/hand_eye_calib_py.egg-info/top_level.txt
+[1.173s] reading manifest file '../../build/hand_eye_calib_py/hand_eye_calib_py.egg-info/SOURCES.txt'
+[1.173s] adding license file 'LICENSE'
+[1.174s] writing manifest file '../../build/hand_eye_calib_py/hand_eye_calib_py.egg-info/SOURCES.txt'
+[1.175s] running build
+[1.175s] running build_py
+[1.175s] copying hand_eye_calib_py/hand_eye_calib_node.py -> /home/robprakt2/beer_ws/build/hand_eye_calib_py/build/lib/hand_eye_calib_py
+[1.175s] running install
+[1.180s] running install_lib
+[1.205s] copying /home/robprakt2/beer_ws/build/hand_eye_calib_py/build/lib/hand_eye_calib_py/hand_eye_calib_node.py -> /home/robprakt2/beer_ws/install/hand_eye_calib_py/lib/python3.12/site-packages/hand_eye_calib_py
+[1.205s] byte-compiling /home/robprakt2/beer_ws/install/hand_eye_calib_py/lib/python3.12/site-packages/hand_eye_calib_py/hand_eye_calib_node.py to hand_eye_calib_node.cpython-312.pyc
+[1.208s] running install_data
+[1.208s] running install_egg_info
+[1.238s] removing '/home/robprakt2/beer_ws/install/hand_eye_calib_py/lib/python3.12/site-packages/hand_eye_calib_py-0.0.0-py3.12.egg-info' (and everything under it)
+[1.238s] Copying ../../build/hand_eye_calib_py/hand_eye_calib_py.egg-info to /home/robprakt2/beer_ws/install/hand_eye_calib_py/lib/python3.12/site-packages/hand_eye_calib_py-0.0.0-py3.12.egg-info
+[1.238s] running install_scripts
+[1.410s] Installing hand_eye_calib_node script to /home/robprakt2/beer_ws/install/hand_eye_calib_py/lib/hand_eye_calib_py
+[1.410s] writing list of installed files to '/home/robprakt2/beer_ws/build/hand_eye_calib_py/install.log'
+[1.450s] Invoked command in '/home/robprakt2/beer_ws/src/hand_eye_calib_py' returned '0': DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PYTHONPATH=/home/robprakt2/beer_ws/build/hand_eye_calib_py/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/robprakt2/beer_ws/install/hand_eye_calib_py/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/hand_eye_calib_py build --build-base /home/robprakt2/beer_ws/build/hand_eye_calib_py/build install --record /home/robprakt2/beer_ws/build/hand_eye_calib_py/install.log --single-version-externally-managed install_data
