@@ -20,7 +20,7 @@ def generate_launch_description():
     obstacle_publisher = Node(
         package='driver_cpp',
         executable='obstacle_publisher',
-        name='obstacle_publisher',
+        name='obstacle_publier',
         output='screen',
         parameters=[obstacles_params],
     )
