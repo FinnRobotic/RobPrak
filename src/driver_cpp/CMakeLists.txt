@@ -77,7 +77,7 @@ install(
   TARGETS
     actuator_driver_node
     actuator_action_server
-    obstacle_pisher
+    obstacle_publisher
   DESTINATION lib/${PROJECT_NAME}
 )
 
