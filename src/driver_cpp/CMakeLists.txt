@@ -18,6 +18,10 @@ find_package(moveit_ros_planning_interface REQUIRED)
 find_package(tf2_ros REQUIRED)
 find_package(tf2_geometry_msgs REQUIRED)
 
+find_package(moveit_msgs REQUIRED)
+find_package(shape_msgs REQUIRED)
+find_package(std_srvs REQUIRED)
+
 # Optional: threads for std::thread usage (Action server)
 find_package(Threads REQUIRED)
 
@@ -50,6 +54,16 @@ ament_target_dependencies(actuator_action_server
   prak_msgs
 )
 
+add_executable(obstacle_publisher src/obstacle_publisher_node.cpp)
+ament_target_dependencies(obstacle_publisher
+  rclcpp
+  std_srvs
+  geometry_msgs
+  moveit_ros_planning_interface
+  moveit_msgs
+  shape_msgs
+)
+
 # Link pthread for threads (some systems need this explicitly)
 target_link_libraries(actuator_action_server
   Threads::Threads
@@ -63,7 +77,15 @@ install(
   TARGETS
     actuator_driver_node
     actuator_action_server
+    obstacle_pisher
   DESTINATION lib/${PROJECT_NAME}
+)
+
+install(
+  DIRECTORY
+    launch
+    config
+  DESTINATION share/${PROJECT_NAME}
 )
 
 if(BUILD_TESTING)
