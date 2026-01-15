@@ -69,9 +69,10 @@ private:
     }
 
     RCLCPP_INFO(this->get_logger(),
-                "Received ActuatorRequest (use_angles=%s, frame_id='%s')",
-                msg->use_angles ? "true" : "false",
-                msg->header.frame_id.c_str());
+      "Received ActuatorRequest (use_angles=%s, plan_cartesian=%s, frame_id='%s')",
+      msg->use_angles ? "true" : "false",
+      msg->plan_cartesian ? "true" : "false",
+      msg->header.frame_id.c_str());
 
     bool ok = false;
 
@@ -80,12 +81,19 @@ private:
       RCLCPP_INFO(this->get_logger(), "Executing joint goal.");
       ok = executeJointGoal(msg->joint_state);
     }
+  else
+  {
+    if (msg->plan_cartesian)
+    {
+      RCLCPP_INFO(this->get_logger(), "Cartesian pose motion requested.");
+      ok = executeCartesianPoseGoal(*msg);
+    }
     else
     {
-      RCLCPP_INFO(this->get_logger(), "Executing pose goal (frame_id='%s').",
-                  msg->header.frame_id.c_str());
+      RCLCPP_INFO(this->get_logger(), "PoseTarget motion requested.");
       ok = executePoseGoal(*msg);
     }
+  }
 
     if (!ok)
     {
@@ -186,6 +194,67 @@ private:
 
     return true;
   }
+
+bool executeCartesianPoseGoal(const ActuatorRequest &req)
+{
+  move_group_->setStartStateToCurrentState();
+  /*
+  if (!move_group_->getCurrentState(1.0))
+  {
+    RCLCPP_ERROR(this->get_logger(),
+                 "No current robot state available.");
+    return false;
+  }
+  */
+  geometry_msgs::msg::PoseStamped pose_in;
+  pose_in.header = req.header;
+  pose_in.pose   = req.pose;
+
+  const std::string planning_frame = move_group_->getPlanningFrame();
+  if (pose_in.header.frame_id.empty())
+    pose_in.header.frame_id = planning_frame;
+
+  geometry_msgs::msg::PoseStamped pose_target;
+  try
+  {
+    pose_target = tf_buffer_->transform(
+        pose_in, planning_frame, tf2::durationFromSec(0.1));
+  }
+  catch (const tf2::TransformException &ex)
+  {
+    RCLCPP_ERROR(this->get_logger(), "TF error: %s", ex.what());
+    return false;
+  }
+
+  move_group_->setMaxVelocityScalingFactor(0.1);
+  move_group_->setMaxAccelerationScalingFactor(0.05);
+
+  std::vector<geometry_msgs::msg::Pose> waypoints;
+  waypoints.push_back(pose_target.pose);
+
+  moveit_msgs::msg::RobotTrajectory trajectory;
+
+  double fraction = move_group_->computeCartesianPath(
+      waypoints,
+      0.01,
+      trajectory,
+      true);
+
+  if (fraction < 0.99)
+  {
+    RCLCPP_ERROR(this->get_logger(),
+                 "Cartesian path incomplete: %.1f%%",
+                 fraction * 100.0);
+    return false;
+  }
+
+  moveit::planning_interface::MoveGroupInterface::Plan plan;
+  plan.trajectory = trajectory;
+
+  return move_group_->execute(plan) ==
+         moveit::core::MoveItErrorCode::SUCCESS;
+}
+
 
   // Members
   std::string planning_group_;

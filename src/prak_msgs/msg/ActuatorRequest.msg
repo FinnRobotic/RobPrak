@@ -4,7 +4,7 @@ std_msgs/Header header
 
 
 bool use_angles
-
+bool plan_cartesian
 
 prak_msgs/JointState joint_state
 

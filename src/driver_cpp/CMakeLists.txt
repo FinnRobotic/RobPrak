@@ -54,15 +54,15 @@ ament_target_dependencies(actuator_action_server
   prak_msgs
 )
 
-add_executable(obstacle_publisher src/obstacle_publisher_node.cpp)
-ament_target_dependencies(obstacle_publisher
-  rclcpp
-  std_srvs
-  geometry_msgs
-  moveit_ros_planning_interface
-  moveit_msgs
-  shape_msgs
-)
+#add_executable(obstacle_publisher src/obstacle_safety_node.cpp)
+#ament_target_dependencies(obstacle_publisher
+#  rclcpp
+#  std_srvs
+#  geometry_msgs
+#  moveit_ros_planning_interface
+#  moveit_msgs
+#  shape_msgs
+#)
 
 # Link pthread for threads (some systems need this explicitly)
 target_link_libraries(actuator_action_server
@@ -77,7 +77,6 @@ install(
   TARGETS
     actuator_driver_node
     actuator_action_server
-    obstacle_publisher
   DESTINATION lib/${PROJECT_NAME}
 )
 

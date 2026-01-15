@@ -26,20 +26,20 @@ class HandEyeCalibrationNode(Node):
         # ----------------------------
         # Parameters
         # ----------------------------
-        self.declare_parameter('required_poses', 15)
+        self.declare_parameter('required_poses', 6)
 
         self.declare_parameter('topics.robot_pose', '/tcp_pose_broadcaster/pose')
-        self.declare_parameter('topics.tracking_pose', '/vrpn_mocap/Table_1/pose')
+        self.declare_parameter('topics.tracking_pose', '/vrpn_mocap/RobPraktMarker/pose')
         self.declare_parameter('topics.pose_reached', '/driver/pose_reached')
         self.declare_parameter('topics.actuator_request', '/driver/actuator_request')
 
         # Random workspace bounds (meters)
-        self.declare_parameter('workspace.x_min', 0.35)
-        self.declare_parameter('workspace.x_max', 0.70)
+        self.declare_parameter('workspace.x_min', -0.20)
+        self.declare_parameter('workspace.x_max', 0.20)
         self.declare_parameter('workspace.y_min', -0.30)
-        self.declare_parameter('workspace.y_max', 0.30)
-        self.declare_parameter('workspace.z_min', 0.20)
-        self.declare_parameter('workspace.z_max', 0.60)
+        self.declare_parameter('workspace.y_max', -0.10)
+        self.declare_parameter('workspace.z_min', 0.50)
+        self.declare_parameter('workspace.z_max', 0.80)
 
         # Timers (seconds)
         self.declare_parameter('timers.collect_period_s', 0.25)
@@ -153,19 +153,12 @@ class HandEyeCalibrationNode(Node):
 
     def robot_pose_callback(self, msg):
         self.raw_robot_pose = msg
-        if self.reached_stable:
-            self.last_robot_pose = msg
-        else:
-            self.last_robot_pose = None
+
 
 
 
     def tracking_pose_callback(self, msg):
         self.raw_tracking_pose = msg
-        if self.reached_stable:
-            self.last_tracking_pose = msg
-        else:
-            self.last_tracking_pose = None
 
 
     def pose_reached_callback(self, msg):
@@ -199,13 +192,32 @@ class HandEyeCalibrationNode(Node):
             self.stability_timer.cancel()
             self.stability_timer = None
 
-        # Only proceed if we still consider the robot "reached"
         if not self.reached or not self.is_collecting:
             return
 
-        self.reached_stable = True
 
-        # Promote raw poses to the "accepted" poses
+        now = self.get_clock().now().nanoseconds / 1e9  
+
+        robot_age = float('inf')
+        track_age = float('inf')
+
+        if self.raw_robot_pose is not None:
+            robot_age = now - (self.raw_robot_pose.header.stamp.sec + self.raw_robot_pose.header.stamp.nanosec * 1e-9)
+        if self.raw_tracking_pose is not None:
+            track_age = now - (self.raw_tracking_pose.header.stamp.sec + self.raw_tracking_pose.header.stamp.nanosec * 1e-9)
+
+        max_age = max(robot_age, track_age)
+        if max_age > self.reached_stability_time:
+            self.get_logger().warn(
+                f"Poses too old (age={max_age:.3f}s > stability_time={self.reached_stability_time:.3f}s). "
+                "Requesting new pose."
+            )
+            self.reached = False
+            self.reached_stable = False
+            self.request_new_pose()
+            return
+
+        self.reached_stable = True
         self.last_robot_pose = self.raw_robot_pose
         self.last_tracking_pose = self.raw_tracking_pose
 
@@ -221,6 +233,8 @@ class HandEyeCalibrationNode(Node):
         req.header.stamp = self.get_clock().now().to_msg()
         req.header.frame_id = "base"
         req.use_angles = False
+        req.plan_cartesian = False
+        
 
         # Random position inside configured workspace
         req.pose.position.x = np.random.uniform(self.x_min, self.x_max)
@@ -265,6 +279,12 @@ class HandEyeCalibrationNode(Node):
 
         if self.last_robot_pose is None or self.last_tracking_pose is None:
             self.get_logger().info("Waiting for synchronized poses...")
+            if self.last_tracking_pose is None:
+                self.get_logger().info("Tracking Pose is None")
+                return
+            if self.last_robot_pose is None:
+                self.get_logger().info("Robot Pose is None")
+                return
             return
 
         self.reached = False

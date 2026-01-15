@@ -4,7 +4,7 @@ hand_eye_calibration_node:
 
     topics:
       robot_pose: "/tcp_pose_broadcaster/pose"
-      tracking_pose: "/vrpn_mocap/Table_1/pose"
+      tracking_pose: "/vrpn_mocap/RobPraktMarker/pose"
       pose_reached: "/driver/pose_reached"
       actuator_request: "/driver/actuator_request"
 
@@ -13,8 +13,8 @@ hand_eye_calibration_node:
       x_max: 0.30
       y_min: -0.30
       y_max: 0.30
-      z_min: 0.20
-      z_max: 0.60
+      z_min: 0.30
+      z_max: 0.80
 
     timers:
       first_pose_timer_period_s: 0.5
