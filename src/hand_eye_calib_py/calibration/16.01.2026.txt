@@ -1,0 +1,15 @@
+[hand_eye_calib_node-1] [INFO] [1768571365.298920115] [hand_eye_calib_node]: X (homogeneous 4x4):
+[hand_eye_calib_node-1] [[ 0.004662  0.006988 -0.010639  0.028798]
+[hand_eye_calib_node-1]  [ 0.003172  0.001903 -0.001993 -0.048217]
+[hand_eye_calib_node-1]  [-0.001233  0.0021   -0.000568  0.094442]
+[hand_eye_calib_node-1]  [ 0.        0.        0.        1.      ]]
+[hand_eye_calib_node-1] [INFO] [1768571365.299420987] [hand_eye_calib_node]: X translation [m]: x=0.028798, y=-0.048217, z=0.094442
+[hand_eye_calib_node-1] [INFO] [1768571365.299620838] [hand_eye_calib_node]: X Euler xyz [deg] (from orthonormalized R): roll=-170.179, pitch=55.129, yaw=55.754
+[hand_eye_calib_node-1] [INFO] [1768571365.299892516] [hand_eye_calib_node]: Y (homogeneous 4x4):
+[hand_eye_calib_node-1] [[-0.001316  0.002931  0.001163 -0.721688]
+[hand_eye_calib_node-1]  [ 0.003336  0.000158  0.002393  0.652028]
+[hand_eye_calib_node-1]  [-0.005728  0.0012   -0.000087  0.066225]
+[hand_eye_calib_node-1]  [ 0.        0.        0.        1.      ]]
+[hand_eye_calib_node-1] [INFO] [1768571365.300207403] [hand_eye_calib_node]: Y translation [m]: x=-0.721688, y=0.652028, z=0.066225
+[hand_eye_calib_node-1] [INFO] [1768571365.300406699] [hand_eye_calib_node]: Y Euler xyz [deg] (from orthonormalized R): roll=126.807, pitch=40.051, yaw=113.970
+[hand_eye_calib_node-1] [INFO] [1768571365.300662624] [hand_eye_calib_node]: Calibration finished. Shutting down node.

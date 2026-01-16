@@ -1,0 +1,12 @@
+frames:
+  # X: tool0 -> prak_tool
+  - parent: tool0
+    child: prak_tool
+    translation: [0.028798, -0.048217, 0.094442]
+    rpy_deg: [0.0, 0.0, 0.0]
+
+  # Y: base_link -> camera_link
+  - parent: base_link
+    child: camera_link
+    translation: [-0.721688, 0.652028, 0.066225]
+    rpy_deg: [126.807, 40.051, 113.970]

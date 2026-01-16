@@ -26,10 +26,10 @@ class HandEyeCalibrationNode(Node):
         # ----------------------------
         # Parameters
         # ----------------------------
-        self.declare_parameter('required_poses', 6)
+        self.declare_parameter('required_poses', 5)
 
         self.declare_parameter('topics.robot_pose', '/tcp_pose_broadcaster/pose')
-        self.declare_parameter('topics.tracking_pose', '/vrpn_mocap/RobPraktMarker/pose')
+        self.declare_parameter('topics.tracking_pose', '/vrpn_mocap/RobPrak_eef/pose')
         self.declare_parameter('topics.pose_reached', '/driver/pose_reached')
         self.declare_parameter('topics.actuator_request', '/driver/actuator_request')
 

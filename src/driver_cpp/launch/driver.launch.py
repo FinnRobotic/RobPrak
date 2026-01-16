@@ -7,25 +7,33 @@ import os
 def generate_launch_description():
     pkg_share = get_package_share_directory('driver_cpp')
 
-    obstacles_params = os.path.join(pkg_share, 'config', 'obstacles.yaml')
+
+    static_tf_yaml = os.path.join(
+        pkg_share, 'config', 'static_tf.yaml'
+    )
 
     actuator_driver = Node(
         package='driver_cpp',
         executable='actuator_driver_node',
         name='actuator_driver',
         output='screen',
-        # optional: parameters=[...]
     )
 
-    obstacle_publisher = Node(
+
+
+    static_tf_publisher = Node(
         package='driver_cpp',
-        executable='obstacle_publisher',
-        name='obstacle_publier',
+        executable='static_tf_from_yaml',
+        name='static_tf_publisher',
         output='screen',
-        parameters=[obstacles_params],
+        parameters=[
+            {
+                'yaml_file': static_tf_yaml
+            }
+        ],
     )
 
     return LaunchDescription([
         actuator_driver,
-        obstacle_publisher,
+        static_tf_publisher,
     ])

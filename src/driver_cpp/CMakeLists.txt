@@ -22,6 +22,8 @@ find_package(moveit_msgs REQUIRED)
 find_package(shape_msgs REQUIRED)
 find_package(std_srvs REQUIRED)
 
+find_package(yaml-cpp REQUIRED)
+
 # Optional: threads for std::thread usage (Action server)
 find_package(Threads REQUIRED)
 
@@ -69,6 +71,18 @@ target_link_libraries(actuator_action_server
   Threads::Threads
 )
 
+
+add_executable(static_tf_from_yaml src/static_tf_from_yaml.cpp)
+
+ament_target_dependencies(
+  static_tf_from_yaml
+  rclcpp
+  tf2_ros
+  geometry_msgs
+)
+
+target_link_libraries(static_tf_from_yaml yaml-cpp)
+
 #############
 # Install   #
 #############
@@ -77,6 +91,7 @@ install(
   TARGETS
     actuator_driver_node
     actuator_action_server
+    static_tf_from_yaml
   DESTINATION lib/${PROJECT_NAME}
 )
 
